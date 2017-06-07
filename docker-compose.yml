@@ -6,7 +6,7 @@ services:
     image: postgres:9.5
     container_name: postgre_sql
     volumes:
-      - ../influx-db/db/pgdata:/pgdata
+      - ../mainflux-db/db/pgdata:/pgdata
     ports:
       - "5432:5432"
     environment:
@@ -48,9 +48,9 @@ services:
   ###
   mainflux-manager:
     container_name: mainflux-manager
-    build: ../influx-manager/.
+    build: ../mainflux-manager/.
     volumes:
-      - ../influx-manager:/go/src/github.com/mainflux/mainflux-manager
+      - ../mainflux-manager:/go/src/github.com/mainflux/mainflux-manager
     ports:
       - "9090:9090"
 
