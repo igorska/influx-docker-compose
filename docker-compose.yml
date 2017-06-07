@@ -1,0 +1,56 @@
+version: '2'
+
+services:
+
+  db:
+    image: postgres:9.5
+    container_name: postgre_sql
+    volumes:
+      - ./db/pgdata:/pgdata
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - PGDATA=/pgdata
+  ###
+    # MongoDB
+  ###
+  mongo:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+      - "28017:28017"
+    container_name: mainflux-mongodb
+    command: --smallfiles --nojournal
+
+  ###
+  # NATS
+  ###
+  nats:
+    image: nats:latest
+    container_name: dev-mainflux-nats
+    ports:
+      - "4222:4222"
+      - "8222:8222"
+
+  ###
+  # Redis
+  ###
+  redis:
+    image: redis:alpine
+    container_name: mainflux-redis
+    ports:
+      - "6379:6379"
+
+  ###
+  # Mainflux Manager
+  ###
+  mainflux-manager:
+    container_name: mainflux-manager
+    volumes:
+      - ./mainflux-manager:/go/src/github.com/mainflux/mainflux-manager
+    image: dev-mainflux-manager
+    ports:
+      - "9090:9090"
+
